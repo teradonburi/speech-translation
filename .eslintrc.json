@@ -1,0 +1,38 @@
+{
+  "env": {
+    "es2022": true,
+    "node": true, 
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "ignorePatterns": ["*.json"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "@typescript-eslint/no-unused-vars": 2,
+    "indent": ["error", 2],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "semi": ["error", "never", {"beforeStatementContinuationChars": "never"}],
+    "semi-spacing": ["error", {"after": true, "before": false}],
+    "semi-style": ["error", "first"],
+    "no-extra-semi": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error"
+  },
+  "root": true
+}
