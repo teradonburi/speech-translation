@@ -10,7 +10,6 @@ const App: React.FC<{stream: MediaStream}> = (props) => {
   const audioData = React.useRef<number[]>([])
   const audioRef = React.useRef<HTMLAudioElement>(null)
   const [recording, setRecording] = React.useState(false)
-  const [lang, setLang] = React.useState('ja')
   const [translation, setTranslation] = React.useState('')
 
   // WAVエンコード処理
@@ -98,7 +97,6 @@ const App: React.FC<{stream: MediaStream}> = (props) => {
       // audioRef.current.play();
 
       const formData = new FormData()
-      formData.append('lang', lang)
       formData.append('record_file', audioBlob, 'audio.wav')
       axios.post('/api', formData)
         .then((response) => response.data)
@@ -120,10 +118,6 @@ const App: React.FC<{stream: MediaStream}> = (props) => {
     <div>
       <h1>ほんやくコンニャク</h1>
       <div>
-        <select onChange={(e) => setLang(e.target.value)} style={{display: 'block'}}>
-          <option value="ja">日本語→English</option>
-          <option value="en">English→日本語</option>
-        </select>
         <button type="button" onClick={record}>{recording ? 'Stop' : 'Start'}</button>
       </div>
       <div>

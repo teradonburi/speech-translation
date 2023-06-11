@@ -12,7 +12,7 @@ app.use(express.static('./dist/public'))
 app.use(express.json())
 app.use(cors())
 
-async function audioTranslation(filePath: string, src: string, dist: string) {
+async function audioTranslation(filePath: string) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   })
@@ -25,13 +25,13 @@ async function audioTranslation(filePath: string, src: string, dist: string) {
       undefined, // The prompt to use for transcription.
       'json', // The format of the transcription.
       1, // Temperature
-      src // Language
+      // src // Language
     )
     const prompt = response.data.text
 
     const result = await openai.createCompletion({
       model: 'text-davinci-003',
-      prompt: `Translate this into ${dist}:\n${prompt}`,
+      prompt: `Next message is in English or Japanese.\nPlease translate it into the opposite language and return follow format strictly.\n${prompt}`,
       temperature: 0.3,
       max_tokens: 100,
       top_p: 1.0,
@@ -52,10 +52,7 @@ async function translate(req: Request, res: Response) {
   const pathWithExt = audio_file.path + '.wav'
   await fs.promises.rename(audio_file.path, pathWithExt)
 
-  const targets: { [key: string]: string } = { ja: 'English', en: 'Japanese' }
-  const src = req.body.lang || 'ja'
-  const dist = targets[src] || 'en'
-  const result = await audioTranslation(pathWithExt, src, dist)
+  const result = await audioTranslation(pathWithExt)
   return res.json({
     transcription: result,
     audioFileName: audio_file.filename,
